@@ -1,4 +1,3 @@
-HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -12,6 +11,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.metadata
 
 ### IntelliJ IDEA ###
 .idea
@@ -31,3 +31,55 @@ build/
 
 ### VS Code ###
 .vscode/
+*.code-workspace
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+### Maven Wrapper ###
+.mvn
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# React
+build/
+dist/
+
+# TypeScript
+*.tsbuildinfo
+
+# Outros arquivos que podem ser ignorados
+.DS_Store
+Thumbs.db
+
+### STS ###
+docker/.data
+docker/docker-mysql/mysql_data
+
+### Arquivos de Backup ###
+*.bak
