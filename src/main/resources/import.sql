@@ -4,10 +4,7 @@ INSERT INTO tb_seller(name, email, phone) VALUES ('Padme', 'padme@gmail.com', '9
 INSERT INTO tb_seller(name, email, phone) VALUES ('Thor Odinson', 'thor@gmail.com', '997711148');
 INSERT INTO tb_seller(name, email, phone) VALUES ('Anakin', 'any@gmail.com', '844768748');
 
--- linha adaptada para teste do endpoint: http://localhost:8080/sales/report
--- Considerando o retorno do relatório de vendas dos últimos 12 meses e a Data/Ano atual, com os dados do SQL abaixo.
-INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (1,121,67,18196.0,'2023-06-16');
---
+INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (1,121,67,18196.0,'2022-06-16');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,26,14,4255.0,'2022-06-14');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (3,55,42,13249.0,'2022-06-14');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (3,73,65,20751.0,'2022-06-10');
@@ -37,12 +34,9 @@ INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,38,15,7957.0
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (1,53,29,20903.0,'2022-03-29');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,19,10,3987.0,'2022-03-28');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (5,78,34,20795.0,'2022-03-27');
--- linhas adaptadas para teste do endpoint: http://localhost:8080/sales/report
--- Considerando o retorno do relatório de vendas dos últimos 12 meses e a Data/Ano atual, com os dados do SQL abaixo.
-INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,83,44,4938.0,'2022-07-26');
-INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,32,12,6926.0,'2022-09-13');
-INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,64,33,8193.0,'2022-10-13');
---
+INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,83,44,4938.0,'2022-03-26');
+INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,32,12,6926.0,'2022-03-13');
+INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,64,33,8193.0,'2022-03-13');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (1,39,39,10557.0,'2022-03-05');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (1,158,84,21601.0,'2022-03-02');
 INSERT INTO tb_sales(seller_id,visited,deals,amount,date) VALUES (2,12,6,7625.0,'2022-02-28');

@@ -24,41 +24,26 @@ public class SaleController {
         return ResponseEntity.ok(dto);
     }
 
-    // Finalidade: Procura Paginada de Vendas por período de datas, retornando um DTO para o Cliente (Teste 001)
-    // Objetivo: atender ao 'Relatório de vendas (1., 2.)', 'Informações Complementares' e aos requisitos '2.3' e '2.4' do desafio.
     @GetMapping(value = "/report")
-    public ResponseEntity<Page<SaleMinDTO>> searchSalesPeriodByDateDTO(
+    public ResponseEntity<Page<SaleMinDTO>> getReport(
             @RequestParam(value = "minDate", required = false) String minDate,
             @RequestParam(value = "maxDate", required = false) String maxDate,
             @RequestParam(value = "name", required = false) String name,
             Pageable pageable) {
 
-        Page<SaleMinDTO> page = service.searchSalesPeriodByDateDTO(minDate, maxDate, name, pageable);
-
-        return ResponseEntity.ok(page);
-    }
-
-    // Finalidade: Procura Paginada de Vendas por período de datas, retornando um DTO para o Cliente (Teste 002)
-    // Objetivo: atender ao 'Relatório de vendas (1., 2.)', 'Informações Complementares' e aos requisitos '2.3' e '2.4' do desafio.
-    @GetMapping(value = "/report-entity")
-    public ResponseEntity<Page<SaleMinDTO>> searchSalesPeriodByDateEntity(
-            @RequestParam(value = "minDate", required = false) String minDate,
-            @RequestParam(value = "maxDate", required = false) String maxDate,
-            @RequestParam(value = "name", required = false) String name,
-            Pageable pageable) {
-
-        Page<SaleMinDTO> page = service.searchSalesPeriodByDateEntity(minDate, maxDate, name, pageable);
+        Page<SaleMinDTO> page = service.getReport(minDate, maxDate, name, pageable);
 
         return ResponseEntity.ok(page);
     }
 
     @GetMapping(value = "/summary")
-    public ResponseEntity<List<SellerSalesSummaryDTO>> getSalesSummary(
+    public ResponseEntity<List<SellerSalesSummaryDTO>> getSummary(
             @RequestParam(value = "minDate", required = false) String minDate,
             @RequestParam(value = "maxDate", required = false) String maxDate,
             @RequestParam(value = "name", defaultValue = "") String name) {
 
-        List<SellerSalesSummaryDTO> summary = service.searchSellerSalesSummaryByDateAndName(minDate, maxDate, name);
+        List<SellerSalesSummaryDTO> summary = service.getSummary(minDate, maxDate, name);
+
         return ResponseEntity.ok(summary);
     }
 }

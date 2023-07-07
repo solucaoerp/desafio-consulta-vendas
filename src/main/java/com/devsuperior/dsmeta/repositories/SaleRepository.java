@@ -14,36 +14,21 @@ import java.util.List;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
-    // Finalidade: Procura Paginada de Vendas por período de datas, retornando um DTO para o Service (Teste 001)
-    // Objetivo: atender ao 'Relatório de vendas (1., 2.)', 'Informações Complementares' e aos requisitos '2.3' e '2.4' do desafio.
-    @Query(value = "SELECT new com.devsuperior.dsmeta.dtos.SaleMinDTO(s.id, s.amount, s.date, s.seller.name) "
-                 + "FROM Sale s "
-                 + "WHERE (:startDate IS NULL OR s.date >= :startDate) AND "
-                 + "(:endDate IS NULL OR s.date <= :endDate) AND "
-                 + "(:name IS NULL OR UPPER(s.seller.name) LIKE UPPER(CONCAT('%', :name, '%')))")
-    Page<SaleMinDTO> searchSalesPeriodByDateDTO(@Param("startDate") LocalDate startDate,
-                                                @Param("endDate") LocalDate endDate,
-                                                @Param("name") String name,
-                                                Pageable pageable);
+    @Query(value = "SELECT new com.devsuperior.dsmeta.dtos.SaleMinDTO(obj.id, obj.amount, obj.date, obj.seller.name) "
+                 + "FROM Sale obj "
+                 + "WHERE (:startDate IS NULL OR obj.date >= :startDate) AND "
+                 + "(:endDate IS NULL OR obj.date <= :endDate) AND "
+                 + "(:name IS NULL OR UPPER(obj.seller.name) LIKE UPPER(CONCAT('%', :name, '%')))")
+    Page<SaleMinDTO> getReport(@Param("startDate") LocalDate startDate,
+                               @Param("endDate") LocalDate endDate,
+                               @Param("name") String name,
+                               Pageable pageable);
 
-    // Finalidade: Procura Paginada de Vendas por período de datas, retornando uma Entity para o Service (Teste 002)
-    // Objetivo: atender ao 'Relatório de vendas (1., 2.)', 'Informações Complementares' e aos requisitos '2.3' e '2.4' do desafio.
-    @Query(value = "SELECT s FROM Sale s JOIN FETCH s.seller se WHERE "
-                 + "(COALESCE(:sellerName, '') = '' OR UPPER(se.name) LIKE :sellerName) AND "
-                 + "s.date BETWEEN :minDate AND :maxDate ORDER BY s.id",
-      countQuery = "SELECT count(s) FROM Sale s JOIN s.seller se WHERE "
-                 + "(COALESCE(:sellerName, '') = '' OR UPPER(se.name) LIKE :sellerName) AND "
-                 + "s.date BETWEEN :minDate AND :maxDate")
-    Page<Sale> searchSalesPeriodByDateEntity(@Param("minDate") LocalDate minDate,
-                                             @Param("maxDate") LocalDate maxDate,
-                                             @Param("sellerName") String sellerName,
-                                             Pageable pageable);
-
-    @Query(value = "SELECT new com.devsuperior.dsmeta.dtos.SellerSalesSummaryDTO(s.seller.name, SUM(s.amount)) "
-            + "FROM Sale s WHERE s.date BETWEEN :minDate AND :maxDate AND "
-            + "(COALESCE(:name, '') = '' or s.seller.name = :name) "
-            + "GROUP BY s.seller.name")
-    List<SellerSalesSummaryDTO> findAllSalesSummary(@Param("minDate") LocalDate minDate,
-                                                    @Param("maxDate") LocalDate maxDate,
-                                                    @Param("name") String name);
+    @Query(value = "SELECT new com.devsuperior.dsmeta.dtos.SellerSalesSummaryDTO(obj.seller.name, SUM(obj.amount)) "
+                 + "FROM Sale obj WHERE obj.date BETWEEN :minDate AND :maxDate AND "
+                 + "(COALESCE(:name, '') = '' or obj.seller.name = :name) "
+                 + "GROUP BY obj.seller.name")
+    List<SellerSalesSummaryDTO> getSummary(@Param("minDate") LocalDate minDate,
+                                           @Param("maxDate") LocalDate maxDate,
+                                           @Param("name") String name);
 }
