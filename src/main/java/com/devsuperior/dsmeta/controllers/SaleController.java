@@ -1,12 +1,15 @@
 package com.devsuperior.dsmeta.controllers;
 
 import com.devsuperior.dsmeta.dtos.SaleMinDTO;
+import com.devsuperior.dsmeta.dtos.SellerSalesSummaryDTO;
 import com.devsuperior.dsmeta.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/sales")
@@ -50,8 +53,12 @@ public class SaleController {
     }
 
     @GetMapping(value = "/summary")
-    public ResponseEntity<?> getSummary() {
-        // TODO
-        return null;
+    public ResponseEntity<List<SellerSalesSummaryDTO>> getSalesSummary(
+            @RequestParam(value = "minDate", required = false) String minDate,
+            @RequestParam(value = "maxDate", required = false) String maxDate,
+            @RequestParam(value = "name", defaultValue = "") String name) {
+
+        List<SellerSalesSummaryDTO> summary = service.searchSellerSalesSummaryByDateAndName(minDate, maxDate, name);
+        return ResponseEntity.ok(summary);
     }
 }

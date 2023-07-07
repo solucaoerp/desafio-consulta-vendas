@@ -1,6 +1,7 @@
 package com.devsuperior.dsmeta.services;
 
 import com.devsuperior.dsmeta.dtos.SaleMinDTO;
+import com.devsuperior.dsmeta.dtos.SellerSalesSummaryDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -61,6 +63,7 @@ public class SaleService {
 
     // Finalidade: Procura Paginada de Vendas por período de datas, retornando um DTO para o Controller (Teste 002)
     // Objetivo: atender ao 'Relatório de vendas (1., 2.)', 'Informações Complementares' e aos requisitos '2.3' e '2.4' do desafio.
+    @Transactional(readOnly = true)
     public Page<SaleMinDTO> searchSalesPeriodByDateEntity(String startDateStr, String endDateStr, String sellerName, Pageable pageable) {
         LocalDate startDate;
         LocalDate endDate = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());// 1. Se a data final não for informada, considerar a data atual do sistema
@@ -92,5 +95,25 @@ public class SaleService {
         Page<Sale> sales = repository.searchSalesPeriodByDateEntity(startDate, endDate, sellerName, pageable);
 
         return sales.map(SaleMinDTO::new);
+    }
+
+    @Transactional(readOnly = true)
+    public List<SellerSalesSummaryDTO> searchSellerSalesSummaryByDateAndName(String minDate, String maxDate, String name) {
+
+        LocalDate start, end;
+
+        if (maxDate == null) {
+            end = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+        } else {
+            end = LocalDate.parse(maxDate);
+        }
+
+        if (minDate == null) {
+            start = end.minusYears(1L);
+        } else {
+            start = LocalDate.parse(minDate);
+        }
+
+        return repository.findAllSalesSummary(start, end, name);
     }
 }

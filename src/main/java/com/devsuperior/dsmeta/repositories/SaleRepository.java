@@ -1,6 +1,7 @@
 package com.devsuperior.dsmeta.repositories;
 
 import com.devsuperior.dsmeta.dtos.SaleMinDTO;
+import com.devsuperior.dsmeta.dtos.SellerSalesSummaryDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
@@ -36,4 +38,12 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
                                              @Param("maxDate") LocalDate maxDate,
                                              @Param("sellerName") String sellerName,
                                              Pageable pageable);
+
+    @Query(value = "SELECT new com.devsuperior.dsmeta.dtos.SellerSalesSummaryDTO(s.seller.name, SUM(s.amount)) "
+            + "FROM Sale s WHERE s.date BETWEEN :minDate AND :maxDate AND "
+            + "(COALESCE(:name, '') = '' or s.seller.name = :name) "
+            + "GROUP BY s.seller.name")
+    List<SellerSalesSummaryDTO> findAllSalesSummary(@Param("minDate") LocalDate minDate,
+                                                    @Param("maxDate") LocalDate maxDate,
+                                                    @Param("name") String name);
 }
